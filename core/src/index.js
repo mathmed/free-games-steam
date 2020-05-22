@@ -23,38 +23,36 @@ app.get('/core', (req, res) => {
   /* get last position searched */
   var last_pos_search = parseInt(req.query.pos) || 0
   
-  /* cleaning database */
-  firebase.database().ref("freegames").remove()
+  /* cleaning database in the first call*/
+  if(last_pos_search == 0)
+    firebase.database().ref("freegames").remove()
 
   /* get all steam apps */
   axios.get(`http://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
     .then(list_games => {
       /* process games list */
       process_info(list_games, last_pos_search)
-        .then(result => res.send(filter_discount(result)))
+        .then(result => res.send(get_final_result(result)))
     })
     .catch(error => console.log(error))
 })
 
-const filter_discount = (list_games) => {
+const get_final_result = (list_games) => {
   
-  let array_return = []
-
   list_games.forEach(games_array => {
     for (let [key, game] of Object.entries(games_array))
       if (typeof(game.data) !== 'undefined')
         if (typeof(game.data.price_overview) !== 'undefined')
           if(game.data.price_overview.discount_percent == 100){
-            
-            /* save to database (see database.js file) */
-            firebase.database().ref("freegames").set({[key]:game})
-            array_return.push({[key]:game})
 
+            /* receiving all informations about the free game */
+            /* save to database (see database.js file) */
+            axios.get(`http://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
+              .then((result) => firebase.database().ref("freegames").push(result.data))
           }
   })
 
-  return array_return
-
+  return "done";
 }
 
 const process_info = (list_games, last_pos_search) => {
@@ -106,4 +104,3 @@ const make_query = (list_games, last_pos) => {
 }
 
 app.listen(PORT)
-console.log(`Running on http://${HOST}:${PORT}`)
