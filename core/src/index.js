@@ -22,6 +22,9 @@ app.get('/core', (req, res) => {
 
   /* get last position searched */
   var last_pos_search = parseInt(req.query.pos) || 0
+  
+  /* cleaning database */
+  firebase.database().ref("freegames").remove()
 
   /* get all steam apps */
   axios.get(`http://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
