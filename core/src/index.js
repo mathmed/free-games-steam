@@ -4,7 +4,6 @@
 /* requires */
 const express = require('express')
 const PORT = process.env.PORT || 8080
-const HOST = 'localhost'
 const app = express()
 const axios = require('axios')
 const firebase = require("firebase")
@@ -23,11 +22,11 @@ app.get('/core', (req, res) => {
   /* get last position searched */
   var last_pos_search = parseInt(req.query.pos) || 0
   
-  /* cleaning database in the first call*/
+  /* cleaning database in the first call */
   if(last_pos_search == 0)
     firebase.database().ref("freegames").remove()
 
-  /* get all steam apps */
+  /* get all steam apps and process */
   axios.get(`http://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
     .then(list_games => {
       /* process games list */
@@ -43,10 +42,13 @@ const get_final_result = (list_games) => {
     for (let [key, game] of Object.entries(games_array))
       if (typeof(game.data) !== 'undefined')
         if (typeof(game.data.price_overview) !== 'undefined')
+
+          /* only games with 100% discount */
           if(game.data.price_overview.discount_percent == 100){
 
             /* receiving all informations about the free game */
-            /* save to database (see database.js file) */
+            /* save to database (FIREBASE - see database.js file) */
+
             axios.get(`http://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
               .then((result) => firebase.database().ref("freegames").push(result.data))
           }
@@ -60,7 +62,13 @@ const process_info = (list_games, last_pos_search) => {
   let array_return = []
   let promises = []
 
-  /* each loop has a new request (20 per system call - steam limit) */
+  /* each loop make a new request 
+    500 games per request
+    20 request per system call
+    10000 games per system call
+    steam have aproapproximately 95k games
+  */
+
   for(let i = 0; i < 20; i++){
 
       /* making the query */
