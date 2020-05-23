@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import {withRouter} from "react-router-dom";
-import {get_games_free} from "../api/actions"
+import {get_games_free} from "../actions"
 
 class Home extends React.Component {
 
