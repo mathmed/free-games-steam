@@ -27,7 +27,7 @@ app.get('/core', (req, res) => {
     firebase.database().ref("freegames").remove()
 
   /* get all steam apps and process */
-  axios.get(`http://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
+  axios.get(`https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
     .then(list_games => {
       /* process games list */
       process_info(list_games, last_pos_search)
@@ -37,6 +37,8 @@ app.get('/core', (req, res) => {
 })
 
 const get_final_result = (list_games) => {
+
+  let games_insert = [];
   
   list_games.forEach(games_array => {
     for (let [key, game] of Object.entries(games_array))
@@ -49,12 +51,15 @@ const get_final_result = (list_games) => {
             /* receiving all informations about the free game */
             /* save to database (FIREBASE - see database.js file) */
 
-            axios.get(`http://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
-              .then((result) => firebase.database().ref("freegames").push(result.data))
+            axios.get(`https://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
+              .then((result) => {
+                firebase.database().ref("freegames").push(result.data)
+                games_insert.push(result.data)
+              })
           }
   })
 
-  return "done";
+  return games_insert;
 }
 
 const process_info = (list_games, last_pos_search) => {
@@ -69,7 +74,7 @@ const process_info = (list_games, last_pos_search) => {
     steam have aproapproximately 95k games
   */
 
-  for(let i = 0; i < 20; i++){
+  for(let i = 0; i < 5; i++){
 
       /* making the query */
       let data = make_query(list_games, last_pos_search)
@@ -98,7 +103,7 @@ const make_query = (list_games, last_pos) => {
     /* query url */
     var query = ""
 
-    /* max query is 600 id's (url length limit) */
+    /* max query is 500 id's (url length limit) */
     var max_pos = last_pos + 500
 
     /* loop to create query */
@@ -107,7 +112,7 @@ const make_query = (list_games, last_pos) => {
 
     if(query)
       /* return query and last position searched */
-      return [`http://store.steampowered.com/api/appdetails?appids=${query}&cc=br&filters=price_overview`, last_pos]
+      return [`https://store.steampowered.com/api/appdetails?appids=${query}&cc=br&filters=price_overview`, last_pos]
     else return null
 }
 
