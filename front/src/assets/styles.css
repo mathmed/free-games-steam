@@ -1,10 +1,16 @@
 
 label {margin: 0}
 img {margin: 0!important;}
-a:hover{color: inherit}
+input, select, textarea, input::placeholder{
+    color: #969696!important;
+}
+
+a:hover{text-decoration: none;}
 
 .col-md-3 {padding: 0}
 .row {margin:0}
+
+.pointer {cursor: pointer!important}
 
 .primary-color {color: #4B0082}
 .grey-color {color: #969696}
@@ -15,6 +21,7 @@ a:hover{color: inherit}
 
 .margin-top {margin-top: 1em;}
 .center {justify-content: center; align-items: center; display: flex;}
+.text-center {text-align: center;}
 
 .big-font {font-size: 2em;}
 .medium-font {font-size: 1.2em;}
@@ -47,7 +54,7 @@ a:hover{color: inherit}
     color: white
 }
 
-.btn-get {
+.btn-register {
     background: #4B0082;
     border: 2px solid #4B0082;
     color: white!important;
@@ -55,11 +62,44 @@ a:hover{color: inherit}
     transition: 1s all;
 }
 
-.btn-get:hover, .btn-get:focus, .btn-get:active {
+.btn-register:hover, .btn-register:focus, .btn-register:active {
     background: white;
     color: #4B0082!important;
     outline: none !important;
     box-shadow: none;
 }
+
+.btn-get {
+    background: white;
+    border: 2px solid #4B0082;
+    color: #4B0082!important;
+    font-weight: 500;
+    transition: 1s all;
+}
+
+.btn-get:hover, .btn-get:focus, .btn-get:active {
+    background: #4B0082;
+    color: white!important;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.form-control {
+    outline: none !important;
+    box-shadow: none!important;
+}
+.form-control:focus {
+    border-color: #969696;
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.075)
+  }
+
+.footer {background-color: black; margin-top: 5em; padding: 30px}
+
+.fgs:hover { color: white }
+.see-project {transition: 0.5s all;}
+.see-project:hover {color: white;}
+
+.made {transform: 0.5s all;}
+.made:hover {color: #6e329b!important;}
 
 

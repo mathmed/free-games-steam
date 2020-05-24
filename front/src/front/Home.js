@@ -38,12 +38,33 @@ class Home extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <i className = "white-color big-font fab fa-steam"></i>
-                    <a style = {{marginLeft: 20}} className="navbar-brand white-color" href="#">Free Games Steam</a>
+                    <a style = {{marginLeft: 20}} className="fgs navbar-brand white-color" href="#">FREE GAMES STEAM</a>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <a className = "see-project grey-color" target = "_blank" href = "https://github.com/mathmed/free-games-steam">See project in Github <i className = "fab fa-github"></i></a>
                         </ul>
                     </div>
+                    <div class="my-2 my-lg-0">
+                        <select class="form-control mr-sm-2" aria-label="Language">
+                            <option>English</option>
+                            <option>Portuguese</option>
+                        </select>
+                    </div>
                 </nav>
+                <div className = "center margin-top">
+                    <label className = "bold grey-color">Let me know when a game is free</label>
+                </div>
+                <div className = "center">
+                    <div className = "col-md-4">
+                        <input type = "email" placeholder = "Tell us your email" className = "text-center grey-color form-control"></input>
+                    </div>
+    
+                </div>
+                <div style = {{marginTop: 5}} className = "center">
+                    <button className = "btn btn-register">
+                        Register <i className = "fas fa-envelope"></i>
+                    </button>
+                </div>
 
                 <div className = "row center">
                     {this.props.games ? 
@@ -56,6 +77,20 @@ class Home extends React.Component {
                     />
                     }
                 </div>
+                <footer className = "footer">
+
+                    <div className = "center">
+                        <label className = "white-color">Made by <a target = "_blank" href = "https://github.com/mathmed" className = "bold primary-color made">mathmed</a></label>
+                    </div>
+                    <div className = "center">
+                        <label className = "white-color bold">2020 © Free Games Steam</label>
+                    </div>
+                    <div className = "center">
+                        <label className = "small-font white-color">
+                            This site is not affiliated with Valve, Steam, or any of their partners. All copyrights reserved to their respective owners.
+                        </label>
+                    </div>
+                </footer>
             </div>
         )
     }
