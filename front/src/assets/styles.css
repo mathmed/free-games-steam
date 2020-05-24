@@ -1,0 +1,65 @@
+
+label {margin: 0}
+img {margin: 0!important;}
+a:hover{color: inherit}
+
+.col-md-3 {padding: 0}
+.row {margin:0}
+
+.primary-color {color: #4B0082}
+.grey-color {color: #969696}
+.green-color {color: #489a71}
+.white-color {color: #FFF}
+.grey-background {background-color: #333333!important}
+.black-background {background-color:black}
+
+.margin-top {margin-top: 1em;}
+.center {justify-content: center; align-items: center; display: flex;}
+
+.big-font {font-size: 2em;}
+.medium-font {font-size: 1.2em;}
+.small-font {font-size: 0.8em;}
+.semi-bold {font-weight: 400;}
+.bold {font-weight: bold;}
+
+.card-game {
+    background-color: #FFF;
+    margin-left: 30px;
+    border-radius: 4px;
+    margin-top: 14px;
+    border: 1px solid #b4b4b4;
+    box-shadow:  -1px 1px #b4b4b4,
+         -2px 2px #b4b4b4,
+         -3px 3px #b4b4b4,
+         -4px 4px #b4b4b4,
+         -5px 5px #b4b4b4;
+}
+
+.game-img {
+    width: 100%;
+    height: 165px;
+}
+
+.label-free {
+    background-color: #489a71;
+    padding: 1px 8px;
+    border-radius: 2px;
+    color: white
+}
+
+.btn-get {
+    background: #4B0082;
+    border: 2px solid #4B0082;
+    color: white!important;
+    font-weight: 500;
+    transition: 1s all;
+}
+
+.btn-get:hover, .btn-get:focus, .btn-get:active {
+    background: white;
+    color: #4B0082!important;
+    outline: none !important;
+    box-shadow: none;
+}
+
+
