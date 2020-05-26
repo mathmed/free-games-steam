@@ -9,7 +9,6 @@ const Routes = () => (
     <ConnectedRouter history = {history}>
         <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="*" exact component={<label>error</label>} status = {404}/>
         </Switch>
     </ConnectedRouter>
 )

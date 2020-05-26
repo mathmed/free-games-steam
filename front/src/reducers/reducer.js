@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-    games: null
+    games: null,
+    language: "en"
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -7,6 +8,8 @@ export default (state = INITIAL_STATE, action) => {
 
         case "GET_GAMES_SUCCESS":
             return {...state, games: action.payload}
+        case "CHANGE_LANGUAGE":
+            return {...state, language: action.payload}
         default:
             return state;
     }

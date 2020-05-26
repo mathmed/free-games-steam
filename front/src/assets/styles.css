@@ -5,6 +5,8 @@ input, select, textarea, input::placeholder{
     color: #969696!important;
 }
 
+.btn {font-weight: 600!important;}
+
 a:hover{text-decoration: none;}
 
 .col-md-3 {padding: 0}
