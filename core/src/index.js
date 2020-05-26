@@ -26,76 +26,84 @@ app.get('/core', (req, res) => {
   if(last_pos_search == 0)
     firebase.database().ref("freegames").remove()
 
-  /* get all steam apps and process */
+  /* get all steam apps */
   axios.get(`https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
+    
     .then(list_games => {
-      /* process games list */
-      process_info(list_games, last_pos_search)
-        .then(result => res.send(get_final_result(result)))
+        /* process games list */
+        process_info(list_games, last_pos_search)
+        res.send("Request is done, the database is being populated. You can see the server LOG.")
     })
+
     .catch(error => console.log(error))
 })
 
-const get_final_result = (list_games) => {
-
-  let games_insert = [];
-  
-  list_games.forEach(games_array => {
-    for (let [key, game] of Object.entries(games_array))
-      if (typeof(game.data) !== 'undefined')
-        if (typeof(game.data.price_overview) !== 'undefined')
-
-          /* only games with 100% discount */
-          if(game.data.price_overview.discount_percent == 100){
-
-            /* receiving all informations about the free game */
-            /* save to database (FIREBASE - see database.js file) */
-
-            axios.get(`https://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
-              .then((result) => {
-                firebase.database().ref("freegames").push(result.data)
-                games_insert.push(result.data)
-              })
-          }
-  })
-
-  return games_insert;
-}
 
 const process_info = (list_games, last_pos_search) => {
 
-  let array_return = []
-  let promises = []
-
   /* each loop make a new request 
     500 games per request
-    20 request per system call
-    10000 games per system call
-    steam have aproapproximately 95k games
+    200 requests
+    100000 games per system call
+    steam have approximately 95k games
   */
 
-  for(let i = 0; i < 5; i++){
+  for(let i = 0; i < 200; i++){
 
-      /* making the query */
+      /* making the query with 500 games */
       let data = make_query(list_games, last_pos_search)
 
       if(data){
         
         /* att last post searched */
         last_pos_search = data[1]
-        /* fetching and add to array of promises */
-        promises.push( axios.get(data[0]).then(result => result.data) )
+
+        /* doing the requests with interval to previne the steam ban :/ */
+        setTimeout(() => fetch(data[0], data[1], i), i*1000)
+
       }
   }
+}
 
-  /* process all promises in array */
-  return Promise.all(promises).then((responses)=>{
-    for (let i = 0; i < responses.length; i++) {
-        let response = responses[i]
-        array_return.push(response)
-      }
-  }).then(() => array_return)
+const fetch = (query, games, i ) => {
+  
+  axios.get(query).then(result => {
+    
+    if(result.status == 200){
+      
+      console.log(`Success in get games between ${games} - ${games+500}, checking if exist a free game...`)
+      
+      for (let [key, game] of Object.entries(result.data))
+        
+        /* some verifications... */
+        if (typeof(game.data) !== 'undefined')
+          if (typeof(game.data.price_overview) !== 'undefined')
 
+            /* only games with 100% discount (this can be changed to get more games) */
+            if(game.data.price_overview.discount_percent == 100){
+
+              /* receiving all informations about the free game */
+              /* and save to database (FIREBASE in this case - configure in database.js file) */
+              /* you can save the games where you want, ex: files, cache, another db... */   
+              
+              console.log("A game was discovered! Inserting into db...")
+              axios.get(`https://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
+                .then((result => firebase.database().ref("freegames").push(result.data)))
+          }
+
+    /* retrying failed requests with interval to previne the steam ban :/ */
+    /* if you get a lot of erros, you probably was banned, try again after 24 hours */
+
+    } else {
+      console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
+      setTimeout(() => fetch(query, games), i * 1000)
+    }
+  
+  })
+  .catch(() => {
+    console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
+    setTimeout(() => fetch(query, games), i * 1000)
+  })
 }
 
 const make_query = (list_games, last_pos) => {
