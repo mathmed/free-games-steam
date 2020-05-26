@@ -25,7 +25,7 @@ export default class Game extends React.Component {
                 <img className = "game-img" src = {game.header_image}></img>
                 
                 <div className = "center margin-top">
-                    <label className = "medium-font bold primary-color">{game.name + " (" + game.release_date.date.split(",")[1].replace(" ", "") + ")"}</label>
+                    <label className = "medium-font bold primary-color text-center">{game.name + " (" + game.release_date.date.split(",")[1].replace(" ", "") + ")"}</label>
                 </div>
 
                 <div className = "center">

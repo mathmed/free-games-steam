@@ -8,14 +8,15 @@ input, select, textarea, input::placeholder{
 a:hover{text-decoration: none;}
 
 .col-md-3 {padding: 0}
-.row {margin:0}
+.row {margin:0;}
 
 .pointer {cursor: pointer!important}
 
 .primary-color {color: #4B0082}
 .grey-color {color: #969696}
 .green-color {color: #489a71}
-.white-color {color: #FFF}
+.white-color {color: #FFF!important}
+.white-background {background-color: #FFF!important}
 .grey-background {background-color: #333333!important}
 .black-background {background-color:black}
 
@@ -102,4 +103,11 @@ a:hover{text-decoration: none;}
 .made {transform: 0.5s all;}
 .made:hover {color: #6e329b!important;}
 
+.language {margin-left: 50%;}
 
+
+@media (max-width: 600px) {
+.card-game {margin: 10px 30px;}
+.language {margin-left: 0;}
+
+}

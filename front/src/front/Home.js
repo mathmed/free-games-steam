@@ -34,21 +34,21 @@ class Home extends React.Component {
         return(
             <div className = "">
                 <nav className="black-background navbar navbar-expand-lg">
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
+                    <button className="navbar-toggler white-background" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                        <i className = "fa fa-bars"></i>
                     </button>
                     <i className = "white-color big-font fab fa-steam"></i>
-                    <a style = {{marginLeft: 20}} className="fgs navbar-brand white-color" href="#">FREE GAMES STEAM</a>
+                    <a style = {{marginLeft: 10}} className="bold fgs navbar-brand white-color" href="#">FREE GAMES STEAM</a>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                             <a className = "see-project grey-color" target = "_blank" href = "https://github.com/mathmed/free-games-steam">See project in Github <i className = "fab fa-github"></i></a>
                         </ul>
-                    </div>
-                    <div class="my-2 my-lg-0">
-                        <select class="form-control mr-sm-2" aria-label="Language">
-                            <option>English</option>
-                            <option>Portuguese</option>
-                        </select>
+                        <ul className="navbar-nav mr-auto language">
+                            <select class="form-control " aria-label="Language">
+                                <option>English</option>
+                                <option>Portuguese</option>
+                            </select>
+                        </ul>
                     </div>
                 </nav>
                 <div className = "center margin-top">
@@ -86,7 +86,7 @@ class Home extends React.Component {
                         <label className = "white-color bold">2020 © Free Games Steam</label>
                     </div>
                     <div className = "center">
-                        <label className = "small-font white-color">
+                        <label className = "small-font white-color text-center">
                             This site is not affiliated with Valve, Steam, or any of their partners. All copyrights reserved to their respective owners.
                         </label>
                     </div>
