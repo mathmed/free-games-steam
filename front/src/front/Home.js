@@ -1,11 +1,10 @@
-import React from "react";
-import Game from "./Game";
-import { connect } from "react-redux";
-import {withRouter} from "react-router-dom";
+import React from "react"
+import Game from "./Game"
+import { connect } from "react-redux"
+import {withRouter} from "react-router-dom"
 import {get_games_free, change_language} from "../actions"
-import _ from "lodash";
-import * as animation from "../assets/loading.json";
-import Lottie from 'react-lottie';
+import * as animation from "../assets/loading.json"
+import Lottie from 'react-lottie'
 
 import pt from "../languages/pt.json"
 import en from "../languages/en.json"
@@ -36,8 +35,8 @@ class Home extends React.Component {
 
     render_games_list = () => {
         let games = []
-        _.map(this.props.games, (game, key) => (
-            games.push( <Game text = {this.state.text} key = {key} game = {game} uid = {game[Object.keys(game)].data.steam_appid} /> )
+        this.props.games.forEach(game => (
+            games.push( <Game text = {this.state.text} game = {game} uid = {game.steam_appid} /> )
         ))
         return games
     }

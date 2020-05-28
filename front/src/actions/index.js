@@ -13,7 +13,7 @@ export const get_games_free = () => {
         })
         .then(response => response.json())
         .then(result => {
-            dispatch({type: "GET_GAMES_SUCCESS", payload: result});
+            dispatch({type: "GET_GAMES_SUCCESS", payload: result.games ? result.games : {}});
         })
 
         .catch(err => dispatch({type: "GET_GAMES_ERROR"}))

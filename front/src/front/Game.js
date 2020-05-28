@@ -5,7 +5,7 @@ export default class Game extends React.Component {
 
     render(){
 
-        const game = this.props.game[this.props.uid].data
+        const game = this.props.game
 
         let genres = _.map(game.genres, (genre, uid) => (
             <label key = {uid} style = {{paddingLeft: 3, paddingRight: 3}} className = "grey-color small-font">{genre.description}</label>
