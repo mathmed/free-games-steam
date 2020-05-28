@@ -48,7 +48,7 @@ const process_info = (list_games, last_pos_search) => {
     steam have approximately 95k games
   */
 
-  for(let i = 0; i < 200; i++){
+  for(let i = 1; i <= 200; i++){
 
       /* making the query with 500 games */
       let data = make_query(list_games, last_pos_search)
@@ -59,7 +59,7 @@ const process_info = (list_games, last_pos_search) => {
         last_pos_search = data[1]
 
         /* doing the requests with interval to previne the steam ban :/ */
-        setTimeout(() => fetch(data[0], data[1], i), i*1500)
+        setTimeout(() => fetch(data[0], data[1], i), (i*10)+i*1500)
 
       }
   }
@@ -89,6 +89,7 @@ const fetch = (query, games, i ) => {
               console.log("A game was discovered! Inserting into db...")
               axios.get(`https://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
                 .then((result => firebase.database().ref("freegames").push(result.data)))
+                .catch(() => console.log("Error inserting game in the database."))
           }
 
     /* retrying failed requests with interval to previne the steam ban :/ */
@@ -96,13 +97,13 @@ const fetch = (query, games, i ) => {
 
     } else {
       console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
-      setTimeout(() => fetch(query, games), i * 2000)
+      setTimeout(() => fetch(query, games), (i*10)+i*2000)
     }
   
   })
   .catch(() => {
     console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
-    setTimeout(() => fetch(query, games), i * 2000)
+    setTimeout(() => fetch(query, games), (i*10)+i*2000)
   })
 }
 
