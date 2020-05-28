@@ -17,9 +17,9 @@ app.get('/api', (req, res) => {
     _.map(snapshot.val(), (val, uid) => {
       array_return.push(val[Object.keys(val)].data)
     })
-
     res.send({games: array_return})
   })
+  .catch(() => res.send({}))
 })
 
 app.listen(PORT)
