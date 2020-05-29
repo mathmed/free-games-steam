@@ -3,6 +3,8 @@
 export const get_games_free = () => {
 
     return dispatch => {
+
+        dispatch({type: "GETTING_GAMES"})
         
         fetch("http://localhost:8081/api", {
             method: 'GET',
@@ -13,7 +15,7 @@ export const get_games_free = () => {
         })
         .then(response => response.json())
         .then(result => {
-            dispatch({type: "GET_GAMES_SUCCESS", payload: result.games ? result.games : {}});
+            dispatch({type: "GET_GAMES_SUCCESS", payload: result.games ? result.games : null});
         })
 
         .catch(err => dispatch({type: "GET_GAMES_ERROR"}))

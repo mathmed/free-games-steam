@@ -78,14 +78,21 @@ class Home extends React.Component {
                 </div>
 
                 <div className = "row center">
-                    {this.props.games ? 
-                    this.render_games_list()
+                    {this.props.getting ? 
+                        <Lottie 
+                            options = {options_animation}
+                            height={300}
+                            width={300}
+                        />
                     : 
-                    <Lottie 
-                        options = {options_animation}
-                        height={300}
-                        width={300}
-                    />
+                    
+                    (
+                        this.props.games ?
+                        this.render_games_list()
+                        : 
+                        <label className = "margin-top bold medium-font grey-color">{this.state.text.gamesfound} <i class="fas fa-sad-cry"></i></label>
+                    )
+
                     }
                 </div>
                 <footer className = "footer">
@@ -107,7 +114,8 @@ class Home extends React.Component {
 
 const mapStateToProps = state => ({
     games: state.reducer.games,
-    language: state.reducer.language
+    language: state.reducer.language,
+    getting: state.reducer.getting
 });
 
 export default (connect(mapStateToProps, {get_games_free, change_language})(withRouter(Home)));
