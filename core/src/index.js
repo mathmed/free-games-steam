@@ -102,7 +102,7 @@ const fetch = (query, games, i, save_type ) => {
                   else if(save_type == "json"){
                     fs.readFile("./games.json", (err_read, data) => { 
                       data = JSON.parse(data)
-                      data.games.push(result.data)
+                      data.games.push(result.data[Object.keys(result.data)].data)
                       fs.writeFile("./games.json", JSON.stringify(data), err_write => (err_write ? console.log(err_write) : null))
                     })
                   }
