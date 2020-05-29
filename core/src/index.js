@@ -11,7 +11,10 @@ const firebase = require("firebase")
 var bodyParser = require('body-parser')
 var cors = require('cors')
 require("dotenv").config()
-require("./database");
+
+/* it is possible to save games in firebase or in a json file */
+require("./database")
+const fs = require("fs")
 
 
 app.use(bodyParser.json())
@@ -21,17 +24,22 @@ app.get('/core', (req, res) => {
 
   /* get last position searched */
   var last_pos_search = parseInt(req.query.pos) || 0
+  var save_type = req.query.save || "json"
   
-  /* cleaning database in the first call */
-  if(last_pos_search == 0)
-    firebase.database().ref("freegames").remove()
+  /* cleaning database and json in the first call */
+  if(last_pos_search == 0){
+    if(save_type ==  "firebase")
+      firebase.database().ref("freegames").remove()
+    else if(save_type == "json")
+      fs.writeFile("./games.json", JSON.stringify({"games": []}), err_clean => (err_clean ? console.log(err_clean) : null))
+  }
 
   /* get all steam apps */
   axios.get(`https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=${process.env.STEAM_KEY}&format=json`)
     
     .then(list_games => {
         /* process games list */
-        process_info(list_games, last_pos_search)
+        process_info(list_games, last_pos_search, save_type)
         res.send("Request is done, the database is being populated. You can see the server LOG.")
     })
 
@@ -39,7 +47,7 @@ app.get('/core', (req, res) => {
 })
 
 
-const process_info = (list_games, last_pos_search) => {
+const process_info = (list_games, last_pos_search, save_type) => {
 
   /* each loop make a new request 
     500 games per request
@@ -59,13 +67,13 @@ const process_info = (list_games, last_pos_search) => {
         last_pos_search = data[1]
 
         /* doing the requests with interval to previne the steam ban :/ */
-        setTimeout(() => fetch(data[0], data[1], i), (i*10)+i*1500)
+        setTimeout(() => fetch(data[0], data[1], i, save_type), (i*10)+i*1500)
 
       }
   }
 }
 
-const fetch = (query, games, i ) => {
+const fetch = (query, games, i, save_type ) => {
   
   axios.get(query).then(result => {
     
@@ -88,12 +96,23 @@ const fetch = (query, games, i ) => {
               
               console.log("A game was discovered! Inserting into db...")
               axios.get(`https://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
-                .then((result => firebase.database().ref("freegames").push(result.data)))
+                .then(result => {
+                  if(save_type == "firebase")
+                    firebase.database().ref("freegames").push(result.data)
+                  else if(save_type == "json"){
+                    fs.readFile("./games.json", (err_read, data) => { 
+                      data = JSON.parse(data)
+                      data.games.push(result.data)
+                      fs.writeFile("./games.json", JSON.stringify(data), err_write => (err_write ? console.log(err_write) : null))
+                    })
+                  }
+                  else console.log("Error when save game, you must set the save type corretly")
+                })
                 .catch(() => console.log("Error inserting game in the database."))
           }
 
     /* retrying failed requests with interval to previne the steam ban :/ */
-    /* if you get a lot of erros, you probably was banned, try again after 24 hours */
+    /* if you get a lot of erros, you probably was banned, try again after some hours */
 
     } else {
       console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
