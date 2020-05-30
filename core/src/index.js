@@ -12,7 +12,7 @@ var bodyParser = require('body-parser')
 var cors = require('cors')
 require("dotenv").config()
 
-/* it is possible to save games in firebase or in a json file */
+/* it is possible to save games in database or in a json file */
 require("./database")
 const fs = require("fs")
 
@@ -28,7 +28,7 @@ app.get('/core', (req, res) => {
   
   /* cleaning database and json in the first call */
   if(last_pos_search == 0){
-    if(save_type ==  "firebase")
+    if(save_type ==  "database")
       firebase.database().ref("freegames").remove()
     else if(save_type == "json")
       fs.writeFile("./games.json", JSON.stringify({"games": []}), err_clean => (err_clean ? console.log(err_clean) : null))
@@ -97,7 +97,7 @@ const fetch = (query, games, i, save_type ) => {
               console.log("A game was discovered! Inserting into db...")
               axios.get(`https://store.steampowered.com/api/appdetails?appids=${key}&cc=br`)
                 .then(result => {
-                  if(save_type == "firebase")
+                  if(save_type == "database")
                     firebase.database().ref("freegames").push(result.data)
                   else if(save_type == "json"){
                     fs.readFile("./games.json", (err_read, data) => { 

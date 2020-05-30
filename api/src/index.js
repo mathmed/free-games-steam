@@ -7,7 +7,7 @@ const app = express()
 const firebase = require("firebase")
 var cors = require('cors')
 
-/* it is possible to get games from firebase or from a json file */
+/* it is possible to get games from database or from a json file */
 require("./database")
 const fs = require("fs")
 
