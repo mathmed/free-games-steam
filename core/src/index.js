@@ -116,13 +116,13 @@ const fetch = (query, games, i, save_type ) => {
 
     } else {
       console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
-      setTimeout(() => fetch(query, games), (i*10)+i*2000)
+      setTimeout(() => fetch(query, games, i, save_type), (i*10)+i*2000)
     }
   
   })
   .catch(() => {
     console.log(`Error in get games between ${games} - ${games+500}, retrying...`)
-    setTimeout(() => fetch(query, games), (i*10)+i*2000)
+    setTimeout(() => fetch(query, games, i, save_type), (i*10)+i*2000)
   })
 }
 
