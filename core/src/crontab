@@ -1,0 +1,3 @@
+m h dom mon dow user	command
+00 03 * * * root /usr/bin/curl localhost:8080/core?pos=0&type=json
+00 15 * * * root /usr/bin/curl localhost:8080/core?pos=0&type=json
