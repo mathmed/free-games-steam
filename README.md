@@ -1,5 +1,5 @@
 # free-games-steam
-API with interface to view all games with 100 percent off Steam
+API with interface to view all games with 100 percent off Steam. Using React Native, NodeJS and Firebase.
 
 ## CORE
 The CORE creates the database with the free games. In this project, it's used Firebase Database or JSON files to storage the games info.
@@ -27,7 +27,7 @@ To store the games in the Firebase, you need to create a [Firebase Project](http
   };
 ```
 
-### Run
+### Run CORE
 
 To populate the database or the JSON file, start the core server  
 ```html
@@ -47,6 +47,24 @@ http://localhost:8080/core?pos=0&type=json
 
 ## API
 
+The API returns the games saved in the database or in the JSON file.
+
+### Run API
+First start the API server  
+```html
+$ node api/src/index.js
+```
+then make a http request (the server runs at port 8081)
+
+```html
+http://localhost:8081/api
+```
+The API will look for the games in the JSON file first and if it's empty it will make a request to Firebase (configure `api/src/database.js` in this case).
 
 ## Front
 
+To start the interface, go to `front` and run
+
+```html
+$ npm start
+```
