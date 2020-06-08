@@ -1,7 +1,7 @@
 # free-games-steam
 API with interface to view all games with 100 percent off Steam
 
-## Core
+## CORE
 The CORE creates the database with the free games. In this project, it's used Firebase Database or JSON files to storage the games info.
 
 ### Configure
@@ -42,7 +42,7 @@ http://localhost:8080/core?pos=0&type=json
 | Param        | Description           | Default  |
 | ------------- |:-------------:| -----:|
 | pos    | define 0 if you to want to search all the steam games or another number to search from it  | 0 |
-| type     | define json to save data in a json file or database to save in the firebase      |   json |
+| type     | define json to save the games in a json file or database to save in the firebase      |   json |
 
 
 ## API
