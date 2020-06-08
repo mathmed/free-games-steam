@@ -55,7 +55,7 @@ First start the API server
 ```html
 $ node api/src/index.js
 ```
-then make a **HTTP request*** (the api server runs at port 8081)
+then make a **HTTP request** (the api server runs at port 8081)
 
 ```html
 http://localhost:8081/api
