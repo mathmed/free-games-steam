@@ -1,12 +1,12 @@
 # free-games-steam
-API with interface to view all games with 100 percent off Steam. Using React Native, NodeJS and Firebase.
+API with interface to view all games with 100 percent off Steam. Using **React**, **NodeJS** and **Firebase**.
 
 ## CORE
 The CORE creates the database with the free games. In this project, it's used Firebase Database or JSON files to storage the games info.
 
 ### Configure
-First of all, you need to get a [Steam Key](https://steamcommunity.com/dev/apikey) to access their API.  
-After you get your key, create a `.env` file inside `core/src`, like in the below example  
+First of all, you need to get a [Steam API Key](https://steamcommunity.com/dev/apikey) to access their API.  
+After you get your key, create a `.env` file inside `core/src` and set it, like in the below example  
 
 ```html
 STEAM_KEY=YOURKEY
@@ -44,10 +44,11 @@ http://localhost:8080/core?pos=0&type=json
 | pos    | define 0 if you to want to search all the steam games or another number to search from it  | 0 |
 | type     | define json to save the games in a json file or database to save in the firebase      |   json |
 
+Run the CORE every day to keep your list of games update (use crontab to automate). 
 
 ## API
 
-The API returns the games saved in the database or in the JSON file.
+The API returns the games saved in the JSON file or in the database.
 
 ### Run API
 First start the API server  
@@ -67,4 +68,9 @@ To start the interface, go to `front` and run
 
 ```html
 $ npm start
+```
+the react server runs at port 3000
+
+```html
+http://localhost:3000
 ```
