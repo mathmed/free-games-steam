@@ -33,7 +33,7 @@ To populate the database or the JSON file, start the core server
 ```html
 $ node core/src/index.js
 ```
-then make a http request (the server runs at port 8080)
+then make a **HTTP request** (the core server runs at port 8080)
 
 ```html
 http://localhost:8080/core?pos=0&type=json
@@ -44,7 +44,7 @@ http://localhost:8080/core?pos=0&type=json
 | pos    | define 0 if you to want to search all the steam games or another number to search from it  | 0 |
 | type     | define json to save the games in a json file or database to save in the firebase      |   json |
 
-Run the CORE every day to keep your list of games update (use crontab to automate). 
+Run the CORE every day to keep your list of games update (you can use **crontab** to automate). 
 
 ## API
 
@@ -55,16 +55,16 @@ First start the API server
 ```html
 $ node api/src/index.js
 ```
-then make a http request (the server runs at port 8081)
+then make a **HTTP request*** (the api server runs at port 8081)
 
 ```html
 http://localhost:8081/api
 ```
 The API will look for the games in the JSON file first and if it's empty it will make a request to Firebase (configure `api/src/database.js` in this case).
 
-## Front
+## Interface
 
-To start the interface, go to `front` and run
+To start the interface, go to `front` folder and run
 
 ```html
 $ npm start
