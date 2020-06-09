@@ -1,5 +1,5 @@
-# free-games-steam
-API with interface to view all games with 100 percent off Steam. Using **React**, **NodeJS** and **Firebase**.
+# Free Games Steam
+API with frontend to view all games with 100 percent off. Using **React**, **NodeJS** and **Firebase**.
 
 ## CORE
 The CORE creates the database with the free games. In this project, it's used Firebase Database or JSON files to storage the games info.
@@ -13,7 +13,7 @@ STEAM_KEY=YOURKEY
 ```
 
 #### Firebase
-To store the games in the Firebase, you need to create a [Firebase Project](https://firebase.google.com/?hl=pt-br) and then to configure the `core/src/database.js` file with your credentials.  
+To store the games in the Firebase, you need to create a [Firebase Project](https://firebase.google.com/) and then to configure the `core/src/database.js` file with your credentials.  
 
 ```html
   var config = {
